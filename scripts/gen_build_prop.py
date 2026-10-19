@@ -143,6 +143,18 @@ def parse_args():
     config["BuildNumber"] = config["DateUtc"]
 
   override_config(config)
+  # If only BuildFingerprint was overridden, keep the system partition in sync
+  # unless the device overrode BuildSystemFingerprint itself.
+  overrides = config.get("PRODUCT_BUILD_PROP_OVERRIDES", [])
+  if any(v.startswith("BuildFingerprint=") for v in overrides) \
+          and not any(v.startswith("BuildSystemFingerprint=") for v in overrides):
+      config["BuildSystemFingerprint"] = config["BuildFingerprint"]
+  if args.partition == "system":
+    config['ProductBrand'] = config['SystemBrand']
+    config['DeviceName'] = config['SystemDevice']
+    config['ProductManufacturer'] = config['SystemManufacturer']
+    config['ProductModel'] = config['SystemModel']
+    config['DeviceProduct'] = config['SystemName']
 
   append_additional_system_props(args)
   append_additional_vendor_props(args)

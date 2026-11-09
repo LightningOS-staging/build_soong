@@ -217,6 +217,9 @@ vendor\.google_clockwork\.displayoffload3\..*
 lineageos\.platform
 org\.lineageos\.platform\.internal
 
+# LightningOS adds
+org\.lightning\.display
+
 # MTK adds
 com\.mediatek
 com\.mediatek\..*
